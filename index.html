@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDCF · Michel Bauwens Connection Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy-deep:#1A2A47;--navy-mid:#1E3258;--navy-light:#243A68;--navy-pale:#2E4A7A;--gold:#8B6D14;--gold-bright:#A8841A;--gold-muted:#C4A84A;--gold-pale:#D4BC7A;--white:#FFFFFF;--off-white:#F4F6FA;--light-grey:#EDF0F5;--mid-grey:#C8D0DC;--text-dark:#1A2A47;--text-mid:#3A4A64;--text-light:#5A6A84;--rule:rgba(255,255,255,0.12);--rule-light:rgba(26,42,71,0.12);--gold-rule:rgba(168,132,26,0.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--off-white);color:var(--text-dark);font-family:'Source Serif 4',Georgia,serif;min-height:100vh}
+.masthead{background:linear-gradient(160deg,var(--navy-deep) 0%,var(--navy-mid) 60%,var(--navy-light) 100%);color:var(--white);padding:3rem 4rem 2.8rem;position:relative;overflow:hidden}
+.masthead::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-muted),var(--gold))}
+.masthead-inner{position:relative;z-index:1;display:flex;align-items:flex-start;gap:2rem}
+.masthead-text{flex:1}
+.masthead-label{font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-muted);margin-bottom:0.6rem}
+.masthead-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;line-height:1.2;color:var(--white);margin-bottom:0.5rem}
+.masthead-title em{font-style:italic;color:var(--gold-pale)}
+.masthead-sub{font-size:0.95rem;color:rgba(255,255,255,0.6);font-style:italic;font-weight:300;margin-bottom:1.4rem}
+.masthead-meta{display:flex;gap:2rem;flex-wrap:wrap;font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:400;color:rgba(255,255,255,0.4);letter-spacing:0.06em;text-transform:uppercase}
+.masthead-meta span::before{content:'· ';color:var(--gold-muted)}
+.masthead-meta span:first-child::before{content:''}
+.premise{background:var(--navy-deep);border-bottom:1px solid var(--gold-rule);padding:1.6rem 4rem}
+.premise-text{font-size:1rem;line-height:1.75;color:rgba(255,255,255,0.72);max-width:80ch;font-style:italic;font-weight:300}
+.premise-text strong{font-style:normal;color:var(--gold-pale);font-weight:600}
+.main{padding:3rem 4rem}
+.section-rule{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+.section-rule-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-rule),transparent)}
+.section-rule-line.rev{background:linear-gradient(270deg,var(--gold-rule),transparent)}
+.section-rule-label{font-family:'Inter',sans-serif;font-size:0.62rem;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-light);white-space:nowrap}
+.connection-grid{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr;margin-bottom:3rem;border:1px solid var(--rule-light);border-radius:2px;overflow:hidden;box-shadow:0 2px 12px rgba(26,42,71,0.07)}
+.col-header{background:var(--navy-deep);color:var(--white);padding:0.9rem 1.3rem;border-bottom:2px solid var(--gold)}
+.connector-header{background:var(--navy-deep);display:flex;align-items:center;justify-content:center;border-bottom:2px solid var(--gold)}
+.col-header-label{font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-muted);display:block;margin-bottom:0.2rem}
+.col-header-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--white)}
+.gap-card{background:var(--white);padding:1.5rem 1.3rem;border-bottom:1px solid var(--rule-light);border-right:1px solid var(--rule-light);position:relative}
+.gap-number{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--light-grey);position:absolute;top:0.6rem;right:0.8rem;line-height:1;user-select:none}
+.gap-tag{display:inline-block;font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--navy-deep);background:var(--light-grey);padding:0.18rem 0.55rem;border-radius:2px;margin-bottom:0.55rem;border-left:2px solid var(--navy-pale)}
+.gap-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;color:var(--text-dark);line-height:1.35;margin-bottom:0.5rem}
+.gap-desc{font-size:0.85rem;line-height:1.6;color:var(--text-mid)}
+.gap-source{margin-top:0.65rem;font-family:'Inter',sans-serif;font-size:0.7rem;color:var(--text-light);font-style:italic}
+.arrow-col{background:var(--light-grey);display:flex;flex-direction:column}
+.arrow-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;border-bottom:1px solid var(--rule-light);padding:0.5rem 0}
+.arrow-item:last-child{border-bottom:none}
+.arrow-sym{font-size:1.1rem;color:var(--gold);line-height:1}
+.arrow-verb{font-family:'Inter',sans-serif;font-size:0.52rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);writing-mode:vertical-rl;transform:rotate(180deg)}
+.michel-card{background:#FAFBFD;padding:1.5rem 1.3rem;border-bottom:1px solid var(--rule-light);border-right:1px solid var(--rule-light);border-top:3px solid var(--gold)}
+.michel-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;color:var(--text-dark);margin-bottom:0.6rem;line-height:1.35}
+.citation-block{background:rgba(139,109,20,0.06);border-left:3px solid var(--gold);padding:0.6rem 0.8rem;margin:0.55rem 0;font-style:italic;font-size:0.83rem;line-height:1.55;color:var(--text-mid);border-radius:0 2px 2px 0}
+.citation-source{display:block;margin-top:0.35rem;font-style:normal;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;color:var(--gold);letter-spacing:0.02em}
+.michel-desc{font-size:0.85rem;line-height:1.6;color:var(--text-mid)}
+.output-card{background:var(--navy-deep);padding:1.5rem 1.3rem;border-bottom:1px solid rgba(255,255,255,0.07)}
+.output-tag{display:inline-block;font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-muted);background:rgba(168,132,26,0.15);padding:0.18rem 0.55rem;border-radius:2px;margin-bottom:0.55rem;border-left:2px solid var(--gold)}
+.output-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;line-height:1.35}
+.output-desc{font-size:0.85rem;line-height:1.6;color:rgba(255,255,255,0.65)}
+.criterion-box{border:1px solid var(--rule-light);border-radius:2px;overflow:hidden;box-shadow:0 2px 12px rgba(26,42,71,0.07);margin-bottom:3rem}
+.criterion-header{background:linear-gradient(135deg,var(--navy-deep),var(--navy-mid));color:var(--white);padding:1.1rem 1.6rem;display:flex;align-items:baseline;gap:1rem;border-bottom:2px solid var(--gold)}
+.criterion-num{font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-muted)}
+.criterion-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--white)}
+.criterion-gate{margin-left:auto;font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35)}
+.criterion-body{display:grid;grid-template-columns:1fr 1fr 1fr}
+.criterion-cell{padding:1.5rem 1.6rem;border-right:1px solid var(--rule-light);background:var(--white)}
+.criterion-cell:last-child{border-right:none;background:#FAFBFD}
+.criterion-cell-label{font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--navy-pale);margin-bottom:0.7rem;padding-bottom:0.5rem;border-bottom:1px solid var(--rule-light)}
+.criterion-cell p{font-size:0.88rem;line-height:1.65;color:var(--text-mid);margin-bottom:0.6rem}
+.criterion-cell p:last-child{margin-bottom:0}
+.criterion-cell blockquote{font-style:italic;font-size:0.85rem;line-height:1.55;color:var(--text-dark);border-left:3px solid var(--gold);background:rgba(139,109,20,0.05);padding:0.6rem 0.8rem;margin:0.7rem 0;border-radius:0 2px 2px 0}
+.criterion-cell blockquote cite{display:block;margin-top:0.35rem;font-style:normal;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;color:var(--gold)}
+.aggregator-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule-light);border:1px solid var(--rule-light);border-radius:2px;overflow:hidden;margin-bottom:3rem;box-shadow:0 2px 12px rgba(26,42,71,0.07)}
+.agg-card{background:var(--white);padding:1.5rem 1.6rem}
+.agg-card:last-child{background:var(--navy-deep)}
+.agg-card-label{font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--navy-pale);margin-bottom:0.5rem}
+.agg-card:last-child .agg-card-label{color:var(--gold-muted)}
+.agg-card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--text-dark);margin-bottom:0.5rem;line-height:1.3;padding-bottom:0.5rem;border-bottom:1px solid var(--rule-light)}
+.agg-card:last-child .agg-card-title{color:var(--white);border-bottom-color:rgba(255,255,255,0.1)}
+.agg-card p{font-size:0.87rem;line-height:1.65;color:var(--text-mid)}
+.agg-card:last-child p{color:rgba(255,255,255,0.65)}
+.footer{background:var(--navy-deep);border-top:2px solid var(--gold);padding:1.4rem 4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.footer-left{font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4)}
+.footer-left strong{color:var(--gold-muted);font-weight:600}
+.footer-right{font-family:'Inter',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.3);font-style:italic}
+@media(max-width:900px){.masthead,.premise,.main,.footer{padding-left:1.4rem;padding-right:1.4rem}.connection-grid{grid-template-columns:1fr}.arrow-col,.connector-header{display:none}.criterion-body,.aggregator-row{grid-template-columns:1fr}.masthead-inner{flex-direction:column;gap:1rem}.masthead-meta{flex-direction:column;gap:0.3rem}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-text">
+      <div class="masthead-label">CDCF — Technical Advisory Council · Working Reference</div>
+      <h1 class="masthead-title">Where Michel Bauwens' Work Connects<br>to the <em>foundation-docs</em> Repository</h1>
+      <div class="masthead-sub">A reference map for Fr. John R. D'Orazio, Michel Bauwens, and Marco Fioretti</div>
+      <div class="masthead-meta">
+        <span>Mark Julius Banasihan</span>
+        <span>April 2026</span>
+        <span>github.com/CatholicOS/foundation-docs</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="premise">
+  <p class="premise-text">
+    The <strong>foundation-docs</strong> repository builds the operational governance architecture for Catholic AI deployment —
+    grounded in Magisterial sources, documented across four working files.
+    The CDCF manifesto already cites Hilaire Belloc on the guild idea and translates it into CDCF's founding purpose.
+    Michel Bauwens flagged guilds and monasteries as his specific research interest in his first email to Fr. John R. D'Orazio.
+    The repo encodes that principle operationally in Criterion 8.
+    What this map shows is that <strong>all three pieces were already in conversation</strong> —
+    the manifesto made the connection, Michel's research deepens it, the repo operationalizes it.
+    Michel also brings the commons theory framework that explains why the fragmentation the repo documents was predictable —
+    and the wiki architecture that gives Fr. John R. D'Orazio's aggregator intellectual structure beyond a news feed.
+  </p>
+</div>
+
+<div class="main">
+
+  <div class="section-rule">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">Three Connections · Repo Gap → Michel's Work → Combined Output</div>
+    <div class="section-rule-line rev"></div>
+  </div>
+
+  <div class="connection-grid">
+    <div class="col-header"><span class="col-header-label">Column I</span><div class="col-header-title">Gap in the Repo</div></div>
+    <div class="connector-header"></div>
+    <div class="col-header"><span class="col-header-label">Column II</span><div class="col-header-title">Michel's Documented Work</div></div>
+    <div class="connector-header"></div>
+    <div class="col-header"><span class="col-header-label">Column III</span><div class="col-header-title">What the Combination Produces</div></div>
+
+    <div class="gap-card">
+      <span class="gap-number">1</span>
+      <span class="gap-tag">Criterion 8 · Gate 2</span>
+      <div class="gap-title">Subsidiarity Compatibility Has No Historical Precedent</div>
+      <p class="gap-desc">Criterion 8 requires every AI tool remain deployable at the parish or diocesan level without central authority absorbing local governance. The Catechism and <em>Antiqua et Nova</em> §42 provide the doctrinal grounding. The repo has no documented case of a Catholic institution that successfully maintained this balance across many communities with no central enforcement mechanism.</p>
+      <div class="gap-source">Source: ai-vetting-criteria.md, Criterion 8</div>
+    </div>
+    <div class="arrow-col"><div class="arrow-item"><span class="arrow-sym">→</span><span class="arrow-verb">fills</span></div></div>
+    <div class="michel-card">
+      <div class="michel-title">Monasteries as the Original Mutualization Model — His Own Words</div>
+      <div class="citation-block">"I am interested in extending mutualization to the world of production, as the monks initiated, and the time is ready for a new cycle of religiously-inspired productive communities."<cite class="citation-source">— Michel Bauwens, email to CDCF, March 31, 2026</cite></div>
+      <div class="citation-block">"I also have a strong interest in physical commons, in history (for example how Catholic Guilds and Monasteries applied these principles, etc.)."<cite class="citation-source">— Michel Bauwens, email to CDCF, March 31, 2026</cite></div>
+      <p class="michel-desc">
+        Note: Fr. Patrick Carter, O.S.B. — General Procurator and Secretary of the Abbot Primate, Benedictine Confederation, Rome — is already on the CDCF Ecclesial Advisory Council. The Benedictine governance precedent is inside the organization. Michel's contribution is the comparative secular cases and the commons theory framework that generalizes the Catholic institutional model across guild structures, cosmo-local communities, and distributed productive commons.
+      </p>
+    </div>
+    <div class="arrow-col"><div class="arrow-item"><span class="arrow-sym">→</span><span class="arrow-verb">produces</span></div></div>
+    <div class="output-card">
+      <span class="output-tag">Criterion 8 · Completed</span>
+      <div class="output-title">The Belloc Guild Principle, Operationalized</div>
+      <p class="output-desc">
+        The CDCF manifesto already translates Belloc's guild idea into CDCF's founding purpose: shared infrastructure, local control, no centralized ownership beyond what sustainability requires. Criterion 8 encodes that as an architectural requirement. Michel's comparative research — guilds, cosmo-local communities, Ecuador, Ghent — provides the secular proof that this governance pattern works beyond Catholic institutional contexts. Fr. Carter holds the Benedictine precedent from inside the organization. Together the argument is complete.
+      </p>
+    </div>
+
+    <div class="gap-card">
+      <span class="gap-number">2</span>
+      <span class="gap-tag">Fragmentation Memo</span>
+      <div class="gap-title">Diocesan Fragmentation Is Documented But Has No Commons Theory Framework</div>
+      <p class="gap-desc">The fragmentation memo names three dioceses — Orange, Biloxi, Arlington — building incompatible AI governance standards with no coordination. CommonSpirit Health across 24 states. 168 Catholic Charities agencies unable to share tools. The memo documents the failure pattern but has no theoretical framework explaining why it was predictable.</p>
+      <div class="gap-source">Source: fragmented-catholic-ai-governance.md</div>
+    </div>
+    <div class="arrow-col"><div class="arrow-item"><span class="arrow-sym">→</span><span class="arrow-verb">fills</span></div></div>
+    <div class="michel-card">
+      <div class="michel-title">Subsidiarity Without Solidarity Is a Predictable Commons Failure — And His Theory Explains Why Now</div>
+      <div class="citation-block">Michel's Philosophy Portal seminar documents a thesis he calls the counter-cyclical pulsation of the commons: commons practices weaken during ascending civilizational cycles when market and state institutions perform well, and revive during descending cycles.<cite class="citation-source">— "The Commons: P2P and Civilisational Transition," Philosophy Portal seminar, 2025</cite></div>
+      <div class="citation-block">He wrote directly to Pope Francis proposing that unused Catholic church buildings and monasteries become commons-based productive spaces — sustained engagement with Catholic institutional governance at the organizational level.<cite class="citation-source">— Open Letter to Pope Francis, November 2013, via David Bollier</cite></div>
+      <p class="michel-desc">His counter-cyclical thesis predicts exactly the fragmentation pattern the repo documents. Catholic institutional commons weakened during a period of rapid commercial AI expansion — an ascending cycle for market institutions. His theory gives the repo's 3–6 month urgency window a civilizational basis, not just a vendor contract argument.</p>
+    </div>
+    <div class="arrow-col"><div class="arrow-item"><span class="arrow-sym">→</span><span class="arrow-verb">produces</span></div></div>
+    <div class="output-card">
+      <span class="output-tag">Wiki · Primary Source + Civilizational Frame</span>
+      <div class="output-title">Catholic Commons Wiki Section Gets Live Cases and a Theoretical Framework</div>
+      <p class="output-desc">
+        Michel's wiki Catholic Commons section gains primary source material it does not have: Orange 2024, Biloxi 2026, Arlington 2025, CommonSpirit across 24 states. The fragmentation memo is citable, versioned, and open-source. His counter-cyclical pulsation thesis gives that material a civilizational frame: this fragmentation was predictable, the revival window is now open, and the 3–6 month urgency the repo identifies has theoretical grounding beyond the vendor contract argument.
+      </p>
+    </div>
+
+    <div class="gap-card">
+      <span class="gap-number">3</span>
+      <span class="gap-tag">Fr. John R. D'Orazio's Aggregator</span>
+      <div class="gap-title">The Aggregator Needs a Taxonomy, Not Just a Feed</div>
+      <p class="gap-desc">Fr. John R. D'Orazio is building an AI-powered scraper to catalog Catholic technology news and projects. Michel offered to help put order in the chaos. A catalog without a classification system is a list. The vetting framework provides evaluation criteria but neither the repo nor Fr. John R. D'Orazio has a knowledge architecture for organizing Catholic technology documentation at scale.</p>
+      <div class="gap-source">Source: Fr. John R. D'Orazio, email March 31, 2026</div>
+    </div>
+    <div class="arrow-col"><div class="arrow-item"><span class="arrow-sym">→</span><span class="arrow-verb">fills</span></div></div>
+    <div class="michel-card">
+      <div class="michel-title">P2P Foundation Wiki: 40,000 Articles, One Billion Views</div>
+      <div class="citation-block">Michel built and maintains a 40,000-article wiki on peer production, commons, and governance that reached a billion views before 2018. Direct editorial and architecture experience organizing distributed knowledge at exactly this scale.<cite class="citation-source">— Michel Bauwens, initial email to CDCF, March 31, 2026</cite></div>
+      <p class="michel-desc">The P2P wiki's category architecture — peer production, governance, property, commons transition — is the organizational model for how to make Catholic technology documentation findable, comparable, and usable at scale.</p>
+    </div>
+    <div class="arrow-col"><div class="arrow-item"><span class="arrow-sym">→</span><span class="arrow-verb">produces</span></div></div>
+    <div class="output-card">
+      <span class="output-tag">Aggregator · Structured</span>
+      <div class="output-title">Classification System That Makes the Aggregator a Knowledge Commons</div>
+      <p class="output-desc">The vetting framework provides the evaluation logic: does a project satisfy Gate 1 criteria? Michel's wiki architecture provides the taxonomy: how are projects categorized, cross-referenced, and navigable at scale? Together they give Fr. John R. D'Orazio's aggregator intellectual structure — not a news feed, but a governed Catholic technology commons.</p>
+    </div>
+  </div>
+
+  <div class="section-rule">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">Criterion 8 · Explained in Full</div>
+    <div class="section-rule-line rev"></div>
+  </div>
+
+  <div class="criterion-box">
+    <div class="criterion-header">
+      <span class="criterion-num">Criterion 8</span>
+      <span class="criterion-name">Governance, Maintenance, and Subsidiarity Compatibility</span>
+      <span class="criterion-gate">Gate 2 — Graduation</span>
+    </div>
+    <div class="criterion-body">
+      <div class="criterion-cell">
+        <div class="criterion-cell-label">What It Requires</div>
+        <p>Every AI tool accepted by the CDCF must remain deployable at the parish, diocesan, or institutional level without a central authority absorbing local control. A parish must be able to configure the tool for its own community. A diocese must retain its own pastoral requirements. That local configuration capacity must be architecturally genuine — not cosmetic.</p>
+        <blockquote>"No larger body may take over the legitimate initiative and responsibility of a smaller one."<cite>Catechism of the Catholic Church §1894</cite></blockquote>
+      </div>
+      <div class="criterion-cell">
+        <div class="criterion-cell-label">The Magisterial Grounding</div>
+        <p><em>Antiqua et Nova</em> §42: the responsibility for managing AI wisely "pertains to every level of society, guided by the principle of subsidiarity."</p>
+        <p>Canon 627 requires that consequential authority be tied to specific individuals at the appropriate level. Canon 1609 establishes that Catholic decision-making requires conscious reasoning, the capacity to revise judgments, and transparent mechanisms for appeal.</p>
+        <p><em>Mensuram Bonam</em> adds precision: authentic subsidiarity distributes roles and power <em>horizontally</em>, creating mutual accountability from all levels — not a simple delegation that allows larger bodies to retain ultimate control.</p>
+      </div>
+      <div class="criterion-cell">
+        <div class="criterion-cell-label">What Michel Supplies — and What Fr. Carter Already Holds</div>
+        <p>Criterion 8 states the requirement. It cites the Catechism and <em>Antiqua et Nova</em>. It does not yet have comparative historical evidence that the governance pattern works at scale.</p>
+        <blockquote>Has any institution successfully maintained shared standards at the top while preserving genuine local governance authority at the community level — across many communities, with no central enforcement mechanism?<cite>The open question in the repo</cite></blockquote>
+        <p>Fr. Patrick Carter, O.S.B. — General Procurator, Benedictine Confederation, Rome — is already on the Ecclesial Advisory Council. He holds the Benedictine precedent from inside the organization. Michel supplies the comparative secular cases: guilds, Ecuador, Ghent, cosmo-local communities. Together they close the evidential gap from two directions.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-rule">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">The Three Pieces Together</div>
+    <div class="section-rule-line rev"></div>
+  </div>
+
+  <div class="aggregator-row">
+    <div class="agg-card">
+      <div class="agg-card-label">foundation-docs Repository</div>
+      <div class="agg-card-title">The Governance Architecture</div>
+      <p>Two-gate vetting framework. Eight criteria. Grounded in <em>Antiqua et Nova</em>, Canon 627, Canon 1609, <em>Mensuram Bonam</em>, and two addresses from Pope Leo XIV. Documents the fragmentation problem with named dioceses and real institutional data. Encodes the Belloc guild principle from the CDCF manifesto as an architectural requirement in Criterion 8. Provides the evaluation logic for Fr. John R. D'Orazio's aggregator.</p>
+    </div>
+    <div class="agg-card">
+      <div class="agg-card-label">Michel Bauwens · P2P Foundation</div>
+      <div class="agg-card-title">The Theory, the Comparative Proof, and the Wiki Architecture</div>
+      <p>Counter-cyclical pulsation thesis explaining why Catholic governance fragmentation during commercial AI expansion was predictable — and why the revival window is now open. Fifteen years of comparative research on guild structures, cosmo-local communities, and commons governance that generalizes the Catholic institutional model. Plus 40,000-article wiki architecture for organizing distributed knowledge at scale.</p>
+    </div>
+    <div class="agg-card">
+      <div class="agg-card-label">What CDCF Gains</div>
+      <div class="agg-card-title">A Complete, Historically Grounded Catholic Technology Commons</div>
+      <p>Criterion 8 completed: Belloc in the manifesto, Fr. Carter's Benedictine precedent from inside the organization, Michel's comparative secular cases closing the evidential gap from the outside. The Catholic Commons wiki section with live governance case studies and a civilizational urgency frame. Fr. John R. D'Orazio's aggregator with a governed classification taxonomy. The manifesto's guild principle, operationalized end to end.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-left"><strong>CDCF</strong> · Technical Advisory Council · foundation-docs v0.1</div>
+  <div class="footer-right">github.com/CatholicOS/foundation-docs · Apache 2.0 · April 2026</div>
+</div>
+
+</body>
+</html>
